@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WSDemo.MainPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Text="端口：" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+        <Editor Grid.Row="0" Grid.Column="1" x:Name="txtPort" Text="8085" VerticalTextAlignment="Center"></Editor>
+        <Button Grid.Row="0" Grid.Column="2" x:Name="CounterBtn" Text="启动" Clicked="OnCounterClicked" WidthRequest="150" HorizontalOptions="Center" />
+        <Button Grid.Row="0" Grid.Column="3" x:Name="CloseBtn" Text="关闭" Clicked="CloseBtn_Clicked" WidthRequest="150" HorizontalOptions="Center" />
+        <Label Grid.Row="1" Grid.Column="0" Text="消息记录：" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+        <Editor Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" x:Name="txtContent"/>
+        <Label Grid.Row="2" Grid.Column="0" Text="发送内容：" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+        <Editor Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"  x:Name="txtMessage" Text="8085"></Editor>
+        <Button Grid.Row="2" Grid.Column="3" x:Name="but_Send" Text="发送" HorizontalOptions="Center" WidthRequest="150" HeightRequest="50" Clicked="but_Send_Clicked"/>
+    </Grid>
+</ContentPage>
