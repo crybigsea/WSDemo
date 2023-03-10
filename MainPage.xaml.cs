@@ -25,28 +25,7 @@ public partial class MainPage : ContentPage
         CloseBtn.IsEnabled = false;
         txtMessage.Text = @"{""DevTag"": ""HKVLPR"",""status"": 1,""MsgType"": 0,""cardNo"": ""津C35502"",""Date"": ""2022-08-05 10:03:02"",""IP"": ""192.168.1.44"",""Image"": """"}";
 
-        host = WebSocketHostBuilder.Create()
-                .UseCommand<StringPackageInfo, StringPackageConverter>(commandOptions =>
-                {
-                    commandOptions.AddCommand<Loadometer>();
-                    commandOptions.AddCommand<PlateNumber>();
-                    commandOptions.AddCommand<Infrared>();
-                })
-                .UseSession<MyAppSession>()
-                .ConfigureAppConfiguration((hostCtx, configApp) =>
-                {
-                    configApp.AddInMemoryCollection(new Dictionary<string, string>
-                    {
-                    { "serverOptions:name", "TestServer" },
-                    { "serverOptions:listeners:0:ip", "Any" },
-                    { "serverOptions:listeners:0:port", txtPort.Text }
-                    });
-                })
-                .ConfigureLogging((hostCtx, loggingBuilder) =>
-                {
-                    loggingBuilder.AddConsole();
-                })
-                .Build();
+
 
         MessageHandler = message =>
         {
@@ -82,11 +61,33 @@ public partial class MainPage : ContentPage
     {
         try
         {
+            host = WebSocketHostBuilder.Create()
+                .UseCommand<StringPackageInfo, StringPackageConverter>(commandOptions =>
+                {
+                    commandOptions.AddCommand<Loadometer>();
+                    commandOptions.AddCommand<PlateNumber>();
+                    commandOptions.AddCommand<Infrared>();
+                })
+                .UseSession<MyAppSession>()
+                .ConfigureAppConfiguration((hostCtx, configApp) =>
+                {
+                    configApp.AddInMemoryCollection(new Dictionary<string, string>
+                    {
+                        { "serverOptions:name", "TestServer" },
+                        { "serverOptions:listeners:0:ip", "Any" },
+                        { "serverOptions:listeners:0:port", txtPort.Text }
+                    });
+                })
+                .ConfigureLogging((hostCtx, loggingBuilder) =>
+                {
+                    loggingBuilder.AddConsole();
+                })
+                .Build();
             host.RunAsync();
 
             CounterBtn.IsEnabled = false;
             CounterBtn.Text = "已启动";
-            //CloseBtn.IsEnabled = true;
+            CloseBtn.IsEnabled = true;
         }
         catch (Exception ex)
         {
@@ -113,6 +114,13 @@ public partial class MainPage : ContentPage
         {
             DisplayAlert("Error", $"服务关闭失败\r\n{ex.Message}", "确定");
         }
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        if (host != null)
+            host.StopAsync();
     }
 }
 

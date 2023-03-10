@@ -13,15 +13,17 @@ namespace WSDemo.Commands
 {
     public class Loadometer : IAsyncCommand<WebSocketSession, StringPackageInfo>
     {
-        private readonly Random random = new Random();
+        private Queue<double> weights = new Queue<double>(new List<double>() { 0, 0, 0, 0, 0, 0, 0, 5.2, 6.5, 7.8, 15.3, 20.86, 20.86, 20.86, 20.86, 20.86, 20.86, 20.86, 20.86, 20.86, 20.86, 20.86, 20.86, 20.86, 0, 0 });
 
         public async ValueTask ExecuteAsync(WebSocketSession session, StringPackageInfo package)
         {
+            double weight = weights.Dequeue();
+            weights.Enqueue(weight);
             LoadometerModel loadometer = new LoadometerModel()
             {
                 DevTag = "Loadometer",
                 status = 1,
-                weight = Math.Round(random.NextDouble() * 100, 2)
+                weight = weight
             };
             string strLoadometer = JsonSerializer.Serialize(loadometer);
             if (MainPage.MessageHandler != null)
