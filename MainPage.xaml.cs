@@ -23,7 +23,7 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
         CloseBtn.IsEnabled = false;
-        txtMessage.Text = @"{""DevTag"": ""HKVLPR"",""status"": 1,""MsgType"": 0,""cardNo"": ""津C35502"",""Date"": ""2022-08-05 10:03:02"",""IP"": ""192.168.1.44"",""Image"": """"}";
+        txtMessage.Text = @"{""DevTag"": ""HKVLPR"",""status"": 1,""MsgType"": 0,""cardNo"": ""津C35502"",""Date"": ""2022-08-05 10:03:02"",""IP"": ""192.168.99.125"",""Image"": """"}";
 
 
 
@@ -119,7 +119,7 @@ public partial class MainPage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        if (host != null)
+        if (this.IsLoaded == false && host != null)
             host.StopAsync();
     }
 }
